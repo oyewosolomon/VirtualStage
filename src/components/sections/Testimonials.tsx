@@ -129,20 +129,25 @@ const Testimonials = () => {
               </div>
 
               {/* Company Logos Grid */}
-              <div className="grid grid-cols-2 gap-6">
-                {[...Array(4)].map((_, index) => (
-                  <div 
-                    key={index}
-                    className="bg-gray-50 rounded-lg p-6 flex items-center justify-center"
-                  >
-                    <img
-                      src={`/api/placeholder/120/40`}
-                      alt="Company logo"
-                      className="max-w-full h-auto"
-                    />
-                  </div>
-                ))}
-              </div>
+              <div className="grid grid-cols-2 gap-3">
+              {[
+                "https://logo.clearbit.com/google.com",
+                "https://logo.clearbit.com/tesla.com",
+                "https://logo.clearbit.com/amazon.com",
+                "https://logo.clearbit.com/microsoft.com"
+              ].map((url, index) => (
+                <div 
+                  key={index}
+                  className=" flex items-center h-30 w-10 place-items-center justify-center"
+                >
+                  <img
+                    src={url} // Use the URL from the array
+                    alt="Company logo"
+                    className="h-50 w-full"
+                  />
+                </div>
+              ))}
+            </div>
             </div>
           </div>
 
