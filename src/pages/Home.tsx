@@ -38,7 +38,6 @@ export default function Home() {
       <FeatureSection/>
       <SolutionsShowcase/>
       <PricingSection/>
-      <Testimonials/>
       <Contact/>
       <Footer/>
     </main>

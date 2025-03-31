@@ -5,6 +5,7 @@ import { Menu, X, Globe } from 'lucide-react';
 type NavItem = {
   id: string;
   label: string;
+  href?: string; // Optional href for external links
 };
 
 const Navbar = () => {
@@ -17,7 +18,6 @@ const Navbar = () => {
     { id: 'features', label: 'Features' },
     { id: 'solutions', label: 'Solutions' },
     { id: 'pricing', label: 'Pricing' },
-    { id: 'testimonials', label: 'Testimonials' }
   ];
 
   useEffect(() => {
@@ -26,10 +26,12 @@ const Navbar = () => {
       setIsScrolled(scrollPosition > 50);
 
       // Update active section based on scroll position
-      const sections = navItems.map(item => ({
-        id: item.id,
-        offset: document.getElementById(item.id)?.offsetTop || 0
-      }));
+      const sections = navItems
+        .filter(item => !item.href) // Only consider sections that don't have external links
+        .map(item => ({
+          id: item.id,
+          offset: document.getElementById(item.id)?.offsetTop || 0
+        }));
 
       const currentSection = sections.reduce((acc, section) => {
         if (scrollPosition >= section.offset - 100) {
@@ -57,6 +59,65 @@ const Navbar = () => {
     setIsMobileMenuOpen(false);
   };
 
+  const renderNavItem = (item: NavItem) => {
+    if (item.href) {
+      return (
+        <a
+          href={item.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`relative px-2 py-1 transition-colors ${
+            isScrolled ? 'text-gray-600 hover:text-purple-600' : 'text-white hover:text-purple-200'
+          }`}
+        >
+          {item.label}
+        </a>
+      );
+    } else {
+      return (
+        <button
+          onClick={() => scrollToSection(item.id)}
+          className={`relative px-2 py-1 transition-colors ${
+            isScrolled ? 'text-gray-600 hover:text-purple-600' : 'text-white hover:text-purple-200'
+          }`}
+        >
+          {item.label}
+          {activeSection === item.id && (
+            <div className="absolute bottom-0 left-0 w-full h-0.5 bg-purple-600 transform scale-x-100 transition-transform" />
+          )}
+        </button>
+      );
+    }
+  };
+
+  const renderMobileNavItem = (item: NavItem) => {
+    if (item.href) {
+      return (
+        <a
+          href={item.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`block w-full text-left text-xl py-4 border-b border-gray-100 ${
+            activeSection === item.id ? 'text-purple-600 font-medium' : 'text-gray-600'
+          }`}
+        >
+          {item.label}
+        </a>
+      );
+    } else {
+      return (
+        <button
+          onClick={() => scrollToSection(item.id)}
+          className={`block w-full text-left text-xl py-4 border-b border-gray-100 ${
+            activeSection === item.id ? 'text-purple-600 font-medium' : 'text-gray-600'
+          }`}
+        >
+          {item.label}
+        </button>
+      );
+    }
+  };
+
   return (
     <>
       {/* Main Navbar */}
@@ -76,18 +137,9 @@ const Navbar = () => {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
               {navItems.map(item => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className={`relative px-2 py-1 transition-colors ${
-                    isScrolled ? 'text-gray-600 hover:text-purple-600' : 'text-white hover:text-purple-200'
-                  }`}
-                >
-                  {item.label}
-                  {activeSection === item.id && (
-                    <div className="absolute bottom-0 left-0 w-full h-0.5 bg-purple-600 transform scale-x-100 transition-transform" />
-                  )}
-                </button>
+                <React.Fragment key={item.id}>
+                  {renderNavItem(item)}
+                </React.Fragment>
               ))}
               <button className={`px-6 py-2 rounded-full font-medium transition-colors ${
                 isScrolled 
@@ -120,15 +172,9 @@ const Navbar = () => {
         <div className="container mx-auto px-6 py-24">
           <div className="space-y-6">
             {navItems.map(item => (
-              <button
-                key={item.id}
-                onClick={() => scrollToSection(item.id)}
-                className={`block w-full text-left text-xl py-4 border-b border-gray-100 ${
-                  activeSection === item.id ? 'text-purple-600 font-medium' : 'text-gray-600'
-                }`}
-              >
-                {item.label}
-              </button>
+              <React.Fragment key={item.id}>
+                {renderMobileNavItem(item)}
+              </React.Fragment>
             ))}
             <button className="w-full py-4 bg-purple-600 text-white rounded-full font-medium hover:bg-purple-700 transition-colors">
               Get Started
