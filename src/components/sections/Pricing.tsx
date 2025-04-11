@@ -10,8 +10,8 @@ type Feature = {
 type Plan = {
   name: string;
   description: string;
-  monthlyPrice: number;
-  annualPrice: number;
+  monthlyPrice: string;
+  annualPrice: string;
   features: Feature[];
   highlight: boolean;
 };
@@ -28,8 +28,8 @@ const PricingSection = () => {
     {
       name: "Starter",
       description: "Perfect for small events and webinars",
-      monthlyPrice: 199,
-      annualPrice: 179,
+      monthlyPrice: "180,000",
+      annualPrice: "90,000",
       features: [
         { name: "Up to 500 concurrent users", included: true },
         { name: "HD streaming", included: true },
@@ -45,8 +45,8 @@ const PricingSection = () => {
     {
       name: "Professional",
       description: "Ideal for medium to large organizations",
-      monthlyPrice: 499,
-      annualPrice: 449,
+      monthlyPrice: "350,000",
+      annualPrice: "250,000",
       features: [
         { name: "Up to 5,000 concurrent users", included: true },
         { name: "4K streaming", included: true },
@@ -62,8 +62,8 @@ const PricingSection = () => {
     {
       name: "Enterprise",
       description: "For large-scale global events",
-      monthlyPrice: 999,
-      annualPrice: 899,
+      monthlyPrice: "500,000",
+      annualPrice: "430,000",
       features: [
         { name: "Up to 100,000 concurrent users", included: true },
         { name: "4K streaming", included: true },
@@ -144,7 +144,7 @@ const PricingSection = () => {
 
               <div className="mb-8">
                 <span className="text-4xl font-bold">
-                  ${isAnnual ? plan.annualPrice : plan.monthlyPrice}
+                ₦{isAnnual ? plan.annualPrice : plan.monthlyPrice}
                 </span>
                 <span className={`${plan.highlight ? 'text-purple-100' : 'text-gray-600'}`}>
                   /month
